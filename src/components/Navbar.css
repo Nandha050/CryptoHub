@@ -252,11 +252,10 @@
   /* Never stack */
   align-items: center;
   justify-content: center;
-  /* Center the links */
   gap: 2rem;
-  /* Space between links */
-  max-width: 600px;
-  /* Enough space for all links */
+  /* Add spacing between links */
+  max-width: 700px;
+  /* Increased to give more room */
   margin: 0 auto;
   /* Center the group in the header */
 }
