@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Navbar from "./components/Navbar";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home/Home";
@@ -12,20 +12,36 @@ import Login from "./components/Login";
 import BlogDetail from "./components/BlogDetail";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Leaderboard from "./components/Leaderboard";
+import ChangePassword from "./components/ChangePassword";
 import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import Contributors from "./components/Contributors";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { CoinContext } from "./context/CoinContext";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 
 const App = () => {
+  const { isLoading } = useContext(CoinContext);
   const location = useLocation();
   const isDashboard = location.pathname === "/dashboard";
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
 
   return (
     <ThemeProvider>
       <AuthProvider>
         <div className="app">
+          {/* Loading Spinner - will show when isLoading is true */}
+          {isLoading && !isDashboard && <LoadingSpinner />}
+
           {!isDashboard && <Navbar />}
           <Routes>
             <Route path="/" element={<Home />} />
@@ -51,6 +67,14 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/change-password"
+              element={
+                <PrivateRoute>
+                  <ChangePassword />
                 </PrivateRoute>
               }
             />
