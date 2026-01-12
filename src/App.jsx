@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useEffect, useContext } from "react";
 import Navbar from "./components/Navbar";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -11,6 +12,7 @@ import Features from "./components/Features";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import BlogDetail from "./components/BlogDetail";
+import BlogArticle from './data/BlogArticle'; // From feature/blog-system-update
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardLayout from "./pages/Dashboard/DashboardLayout";
 import DashboardContent from "./pages/Dashboard/DashboardContent";
@@ -26,9 +28,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { CoinContext } from "./context/CoinContext";
 import LoadingSpinner from "./components/LoadingSpinner";
-import { Toaster } from "react-hot-toast";
-import ScrollToTop from "./components/ScrollToTop";
-
+import { Toaster } from "react-hot-toast"; // From main branch
+import ScrollToTop from "./components/ScrollToTop"; // From main branch
 
 const App = () => {
   const { isLoading } = useContext(CoinContext);
