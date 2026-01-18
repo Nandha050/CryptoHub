@@ -1,5 +1,4 @@
 name: "PR auto label & assign"
-
 on:
   pull_request_target:
     types: [opened, reopened, synchronize]
