@@ -15,6 +15,7 @@ export default defineConfig({
     port: 5173,
     watch: {
       usePolling: true, // Enable polling for file changes in Docker
+      interval: 1000, // Set polling interval (in ms) to limit CPU usage
     },
   },
 })
