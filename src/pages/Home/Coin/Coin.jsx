@@ -23,15 +23,28 @@ const Coin = () => {
         },
       };
 
-      fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`, options)
-        .then((res) => res.json())
-        .then((res) => {
-          setCoinData(res);
-        })
-        .catch((err) => console.error(err));
+      try {
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`, options);
+        
+        if (response.status === 429) {
+          console.error("Rate limit exceeded. Please wait a moment and refresh.");
+          return;
+        }
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setCoinData(data);
+      } catch (err) {
+        console.error("Error fetching coin data:", err);
+      }
     };
 
-    fetchCoinData();
+    // Add a small delay to avoid immediate rate limiting
+    const timer = setTimeout(fetchCoinData, 300);
+    return () => clearTimeout(timer);
   }, [coinId]);
 
   // Fetch historical data based on selected timeframe
@@ -47,19 +60,32 @@ const Coin = () => {
         },
       };
 
-      fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily`,
-        options
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          console.log("Historical data:", res);
-          setHistoricalData(res);
-        })
-        .catch((err) => console.error("History fetch error:", err));
+      try {
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily`,
+          options
+        );
+        
+        if (response.status === 429) {
+          console.error("Rate limit exceeded. Please wait a moment before changing timeframes.");
+          return;
+        }
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("Historical data:", data);
+        setHistoricalData(data);
+      } catch (err) {
+        console.error("History fetch error:", err);
+      }
     };
 
-    fetchHistoricalData();
+    // Add delay to prevent rapid API calls when switching timeframes
+    const timer = setTimeout(fetchHistoricalData, 500);
+    return () => clearTimeout(timer);
   }, [currency, coinId, timeframe]);
 
   // Calculate sentiment based on price change
