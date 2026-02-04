@@ -434,6 +434,8 @@
 
 .primary-metric .metric-value {
     font-size: 1.6rem;
+}
+
 .coin-info ul {
   display: flex;
   justify-content: space-between;
