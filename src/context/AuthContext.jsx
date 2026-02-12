@@ -14,7 +14,7 @@ import {
   signOut,
   onAuthStateChanged,
   setPersistence,
-  browserSessionPersistence,
+  browserLocalPersistence,
   reauthenticateWithCredential,
   EmailAuthProvider,
   updatePassword,
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
         "Firebase is not configured. Please add Firebase credentials to use authentication."
       );
     }
-    await setPersistence(auth, browserSessionPersistence);
+    await setPersistence(auth, browserLocalPersistence);
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
@@ -112,7 +112,7 @@ export const AuthProvider = ({ children }) => {
         "Firebase is not configured. Please add Firebase credentials to use authentication."
       );
     }
-    await setPersistence(auth, browserSessionPersistence);
+    await setPersistence(auth, browserLocalPersistence);
     const userCredential = await signInWithPopup(auth, googleProvider);
     const user = userCredential.user;
 
